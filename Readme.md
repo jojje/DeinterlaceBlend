@@ -23,6 +23,7 @@ Fork it at [github], hack away and send a pull request.
 
 ## Release notes
 * 0.0.1 Initial release candidate
+* 0.0.2 Add CPU feature guard, to prevent crash on 15+ year old CPUs.
 
 [github]: http://https://github.com/jojje/DeinterlaceBlend
 [VirtualDub]: https://sourceforge.net/projects/vdfiltermod/

@@ -30,9 +30,9 @@ PVideoFrame __stdcall DeinterlaceBlend::GetFrame(int n, IScriptEnvironment* env)
 
 // Constructor
 DeinterlaceBlend::DeinterlaceBlend(PClip _child, IScriptEnvironment* env) : GenericVideoFilter(_child) {
-	VideoInfo vi = child->GetVideoInfo();
-	if (vi.IsPlanar()) {
-	//	env->ThrowError(PLUGIN ": input clip to filter must be in YUY2 or RGB color space");
+	const int hasSSE2 = env->GetCPUFlags() & CPUF_SSE2;
+	if (!hasSSE2) {
+		env->ThrowError(PLUGIN " requires a CPU with the SSE2 instruction set");
 	}
 }
 

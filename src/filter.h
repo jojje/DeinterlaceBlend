@@ -20,7 +20,7 @@
 
 #include "avisynth.h"
 
-#define VERSION "0.0.1"
+#define VERSION "0.0.2"
 #define PLUGIN "DeinterlaceBlend"
 #define AUTHOR "tinjon[at]gmail.com"
 
