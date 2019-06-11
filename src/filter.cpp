@@ -1,5 +1,5 @@
-// SmoothSkip: AVISynth filter for processing stuttering clips
-// Copyright (C) 2015 Jonas Tingeborn
+// DeinterlaceBlend: Port of Virtualdub internal blend deinterlacer
+// Copyright (C) 2019 Jonas Tingeborn
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -15,6 +15,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
 // USA.
+
 
 #include <Windows.h>
 #include "filter.h"
