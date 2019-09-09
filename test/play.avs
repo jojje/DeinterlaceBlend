@@ -1,5 +1,5 @@
-LoadPlugin("..\release\DeinterlaceBlend.dll")
-# LoadPlugin("..\debug\DeinterlaceBlend.dll")
+LoadPlugin("..\release\32bit\DeinterlaceBlend.dll")
+#LoadPlugin("..\debug\32bit\DeinterlaceBlend.dll")
 
 red   = BlankClip(length=1000, width=1280, height=360, fps=25, color=$FF0000)
 green = BlankClip(length=1000, width=1280, height=360, fps=25, color=$00FF00)

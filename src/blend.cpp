@@ -24,8 +24,9 @@
 #define uint32 unsigned int
 #define uchar unsigned char
 
-// All but the last function was originally written by Avery Lee
+// All but the last function was originally written by Avery Lee of VirtualDub
 
+#ifdef _M_IX86
 static void __declspec(naked) asm_blend_row_clipped(void *dst, const void *src, uint32 w, ptrdiff_t srcpitch) {
 	__asm {
 		push	ebp
@@ -84,6 +85,37 @@ void asm_blend_row_SSE2(void *dst, const void *src, uint32 w, ptrdiff_t srcpitch
 		*dstrow++ = _mm_avg_epu8(_mm_xor_si128(_mm_avg_epu8(_mm_xor_si128(a, inv), _mm_xor_si128(c, inv)), inv), b);
 	} while (--w);
 }
+#else
+static void asm_blend_row_clipped(void *dst0, const void *src0, uint32 w, ptrdiff_t srcpitch) {
+	uint32 *dst = (uint32 *)dst0;
+	const uint32 *src = (const uint32 *)src0;
+	const uint32 *src2 = (const uint32 *)((const char *)src + srcpitch);
+
+	do {
+		const uint32 x = *src++;
+		const uint32 y = *src2++;
+
+		*dst++ = (x | y) - (((x^y) & 0xfefefefe) >> 1);
+	} while (--w);
+}
+
+static void asm_blend_row_SSE2(void *dst0, const void *src0, uint32 w, ptrdiff_t srcpitch) {
+	uint32 *dst = (uint32 *)dst0;
+	const uint32 *src = (const uint32 *)src0;
+	const uint32 *src2 = (const uint32 *)((const char *)src + srcpitch);
+	const uint32 *src3 = (const uint32 *)((const char *)src2 + srcpitch);
+
+	do {
+		const uint32 a = *src++;
+		const uint32 b = *src2++;
+		const uint32 c = *src3++;
+		const uint32 hi = (a & 0xfcfcfc) + 2 * (b & 0xfcfcfc) + (c & 0xfcfcfc);
+		const uint32 lo = (a & 0x030303) + 2 * (b & 0x030303) + (c & 0x030303) + 0x020202;
+
+		*dst++ = (hi + (lo & 0x0c0c0c)) >> 2;
+	} while (--w);
+}
+#endif
 
 
 void BlendPlane(uchar *dst, const int dstpitch, const uchar *src, const int srcpitch, int w, int h) {

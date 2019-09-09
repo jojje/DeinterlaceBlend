@@ -20,7 +20,7 @@
 
 #include "avisynth.h"
 
-#define VERSION "0.0.2"
+#define VERSION "0.1.0"
 #define PLUGIN "DeinterlaceBlend"
 #define AUTHOR "tinjon[at]gmail.com"
 
@@ -32,7 +32,9 @@ public:
 
 AVSValue __cdecl Create_DeinterlaceBlend(AVSValue args, void* user_data, IScriptEnvironment* env);
 
-extern "C" __declspec(dllexport) const char* __stdcall AvisynthPluginInit2(IScriptEnvironment* env) {
+const AVS_Linkage* AVS_linkage = 0;
+extern "C" __declspec(dllexport) const char* __stdcall AvisynthPluginInit3(IScriptEnvironment* env, const AVS_Linkage* const vectors) {
+	AVS_linkage = vectors;
 	env->AddFunction(PLUGIN, "c", Create_DeinterlaceBlend, 0);
 	return PLUGIN " v" VERSION ", author: " AUTHOR;
 }
